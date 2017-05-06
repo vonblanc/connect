@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+   <script src="https://apis.google.com/js/client.js"></script>
+   
+
+    
+   <script>
+
+	 var fireToken;
+     var apiRoot="http://localhost:8080/_ah/api";
+
+
+	 function init()
+	 {
+	 	postinit(apiRoot)
+	 	
+	 }
+ 
+    
+    	
+    	 
+    	           
+    	      
+    	      
+    	      var postinit=  function(apiRoot) {
+    	    	  
+    	    	  console.log("got into the initialize function......");
+    	    	  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
+    	    	  // when they have completed.
+    	    	  var apisToLoad;
+    	    	  var callback = function() {
+    	    	    if (--apisToLoad == 0) {
+    	    	    	
+    	    	    	console.log("got into the callback calling gapi request function.............")
+    	    	        call();
+    	    	    }
+    	    	  }
+
+    	    	  apisToLoad = 1; // must match number of calls to gapi.client.load()
+    	    	  gapi.client.load('connectapi', 'v1', callback, apiRoot);
+    	    	};
+
+    	      
+               
+    	    	
+    	    	
+    	    	
+
+
+    	  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
+    	  // when they have completed.
+
+    	  var call = function() {
+    	        console.log("currently about exectuing the gapi request func");
+
+    	      gapi.client.request({
+
+    	    	 
+
+    	    	  
+    	       'path':'connectapi/v1/test',
+    	        'method':'GET',
+    	        'params': {'Message':'hello its me'},
+    	        'headers': {
+
+    	        'Authorization': 'Bearer '+ fireToken,
+
+    	        },
+    	    }).then(function(reponse){
+
+    	           //console.log(JSON.stringify(reponse));
+
+
+
+    	        }, function(error){console.log(error);
+    	        
+    	        console.log(error.headers);
+    	        });
+
+    	  }
+
+</script>
+
+
+
+
+
+
+
+
+</head>
+
+<body>
+
+  <div id="buttext_cont">
+    <div id="input_holder">
+      Put token inside:
+      <input id="get_token" type="text" >
+
+    </div>
+    <button id="trans_token"></button>
+    
+
+  </div>
+
+
+<script type="text/javascript">
+
+
+    $("#trans_token").click(function(){
+
+var value=$("#get_token").val();
+fireToken=value;
+console.log(fireToken);
+
+init();
+
+
+// Loads the JavaScript client library and invokes `start` afterwards.
+//gapi.load('client', start);
+  
+
+ 
+});
+
+
+
+
+
+</script>
+
+
+
+</body>
+
+
+
+
+</html>

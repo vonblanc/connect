@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+
+<!--<script src='//ajax.googleaapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'> </script> -->
+
+<link href="style.css" rel="stylesheet" type="text/css" media="screen">
+
+<script src="https://www.gstatic.com/firebasejs/live/3.7/firebase.js"></script>
+
+<script src="config.js"></script>
+
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+
+ <script src="authhandler.js"></script>
+ 
+<title>Redirect Profile page</title>
+</head>
+<body>
+
+
+  <div id="container">
+    <h3>User page</h3>
+    <div id=loading>Loading....</div>
+    <div id="loaded" class="hidden">loaded</div>
+
+    <div id="main">
+      <div id="signed_in_section" class="hidden">
+        
+        <div id="user-info">
+          
+          <div class=uinfo>User Information</div>
+           
+          <div id="photo_container">
+           <img id="profile-pic">
+          </div>
+         
+          <div id="personal_dets">
+           <div id="name"></div>
+           <div id="email"></div>
+          </div>
+         
+        </div>
+        
+        <div id="sign_out">
+          <button>Sign Out</button>
+        </div>
+        
+      </div>
+     
+     
+     
+    </div>
+
+
+
+  </div>
+  
+ 
+  
+</body>
+</html>
