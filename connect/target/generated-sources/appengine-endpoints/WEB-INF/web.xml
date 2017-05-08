@@ -1,14 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="no"?><web-app xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.5" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
 
     
-    <servlet>
-        <servlet-name>SendEmailServlet</servlet-name>
-        <servlet-class>com.google.devrel.training.conference.servlets.SendEmailServlet</servlet-class>
-    </servlet>
-     <servlet-mapping>
-        <servlet-name>SendEmailServlet</servlet-name>
-        <url-pattern>/conference/email</url-pattern>
-    </servlet-mapping>
     
     <servlet>
         <servlet-name>SystemServiceServlet</servlet-name>    <!-- Wraps the backend with endpoint frameworks v? or declaration name for servlet-->
@@ -17,6 +9,21 @@
             <param-name>services</param-name>
             <param-value>com.connect.backend.Greetings,com.connect.backend.spi.connectapi</param-value>  <!-- this is app specific name of the app  -->
         </init-param>
+        
+       <init-param>
+      <param-name>credential</param-name>
+      <param-value>/WEB-INF/confrencecenter-firebase-adminsdk-c7b4h-07ab89e0da.json</param-value>
+      </init-param>
+      
+      <init-param>
+      <param-name>databaseUrl</param-name>
+      <param-value>https://confrencecenter.firebaseio.com</param-value>
+      </init-param>
+       
+        
+        
+        
+        
     </servlet>
     
     <servlet-mapping>       <!-- Routes Api requests to the backend/ maps urls to the declared sservlet to handle it -->

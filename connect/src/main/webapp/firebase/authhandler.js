@@ -1,8 +1,8 @@
 
 $("document").ready(function(){
 	
-	//var currentUid;
-	
+	  var sendToken;
+	  
 	
 	
 	
@@ -15,7 +15,13 @@ $("document").ready(function(){
 			  if (user && user.uid == currentUid) {
 				  handleSignedInUser(user);
 
-				  console.log("got here in no need func")
+              user.getToken().then(function(accessToken){
+					  
+					  
+     				  console.log("ACCESS TOKEN BABY "+accessToken);
+
+					  
+				  });
 			    return;
 			  }
 			  
@@ -24,7 +30,7 @@ $("document").ready(function(){
 				  handleSignedInUser(user);
 				  user.getToken().then(function(accessToken){
 					  
-					  console.log(accessToken);
+     				  console.log("ACCESS TOKEN BABY "+accessToken);
 					  
 					  
 				  });
@@ -44,6 +50,28 @@ $("document").ready(function(){
 		handleSignOutUser(User);
 		
 	});
+	
+var button_token=$("#send_token").find("button");
+
+button_token.click(function(){
+	
+	var request={
+	  		   "Message":"Hello it's me",
+	  		   
+	     };
+	
+
+	
+	
+	firebase.auth().currentUser.getToken().then(function(token){
+		
+		console.log(token);
+		console.log("About calling ajax to send token");
+		sendTokenToConnect(token,request);
+		
+	},function(error){console.log(error);});
+	
+});
 
 var handleSignedInUser=function(user)
 {    
@@ -77,7 +105,48 @@ firebase.auth().signOut().then(function(){
 
 }
 
+var sendTokenToConnect= function(sendToken,request)
+{
+	$.ajax({
 
+        url: 'http://localhost:8080/_ah/api/connectapi/v1/test',
+
+        type: 'GET',
+
+        dataType: 'json',
+
+        data: request,
+
+        success: function (data, textStatus, xhr) {
+
+            console.log(data);
+
+        },
+        
+        headers:{
+     	   'Authorization': 'Bearer '+sendToken
+     	   
+     	   
+        },
+
+        error: function (xhr, textStatus, errorThrown) {
+            
+     	   
+            console.log('Error in Operation');
+            console.log(textStatus + "Error thrown:"+ errorThrown);
+            
+        }
+
+    });
+	   
+	   
+
+
+
+
+
+
+}
 
 
 	

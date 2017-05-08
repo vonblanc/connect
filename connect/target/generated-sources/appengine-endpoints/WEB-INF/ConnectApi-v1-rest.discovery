@@ -21,7 +21,7 @@
  "kind": "discovery#restDescription",
  "methods": {
   "decMessage": {
-   "httpMethod": "POST",
+   "httpMethod": "GET",
    "id": "connectapi.decMessage",
    "parameters": {
     "Message": {

@@ -24,7 +24,7 @@ public class connectapi{
 
 	
 	
-	@ApiMethod(name="decMessage",path="test",httpMethod=HttpMethod.POST)
+	@ApiMethod(name="decMessage",path="test",httpMethod=HttpMethod.GET)
 	public Hello decMessage(User user,@Named("Message") final String Message) throws UnauthorizedException
 	{
 		if(user==null) throw new UnauthorizedException("There is no user returned");
