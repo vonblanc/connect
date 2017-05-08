@@ -4,6 +4,8 @@ import com.connect.backend.users.AuthUser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -29,9 +31,17 @@ public class FireAuth implements Authenticator{
 	public static final Logger logger=Logger.getLogger(FireAuth.class.getName());
 	private FirebaseToken firebaseToken;
 	
+	User user;
+
+	
 	static {
         try {
-            FileInputStream inputStream = new FileInputStream(
+            
+       
+        
+        
+        	
+        	FileInputStream inputStream = new FileInputStream(
                     new File("WEB-INF/confrencecenter-firebase-adminsdk-c7b4h-07ab89e0da.json"));
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredential(FirebaseCredentials.fromCertificate(inputStream))
@@ -39,6 +49,12 @@ public class FireAuth implements Authenticator{
                     .build();
 
             FirebaseApp.initializeApp(options);
+            
+        	
+        	
+            
+            logger.log(Level.SEVERE, "Successfully initiaalized Firebase app");
+
 
         } catch (Exception e) {
             logger.log(Level.SEVERE, e.toString(), e);
@@ -53,7 +69,7 @@ public class FireAuth implements Authenticator{
         //get token
         final String authorizationHeader = httpServletRequest.getHeader("Authorization");
         
-        //AuthUser user;
+        
         
         //verify
         if(authorizationHeader != null) {
@@ -62,7 +78,7 @@ public class FireAuth implements Authenticator{
 						@Override
 						public void onFailure(Exception e) {
 				            
-							
+							logger.log(Level.SEVERE, "Verification of firebase token faailed but aat least it go to this stage");
 							
 							logger.log(Level.SEVERE, e.toString(), e);
 							
@@ -80,19 +96,30 @@ public class FireAuth implements Authenticator{
 						public void onComplete(Task<FirebaseToken> arg0) {
 							// TODO Auto-generated method stub
 							firebaseToken=arg0.getResult();
+							logger.log(Level.SEVERE, "Verification of firebase token Successful");
+							logger.log(Level.SEVERE, "This is the users email from the firebase token "+firebaseToken.getEmail());
+
+							user=new AuthUser(firebaseToken.getUid(), firebaseToken.getEmail(), firebaseToken.getName());
+			                logger.log(Level.SEVERE, "User created is "+ user.toString());
+
 							
 						}});
-
-            if(firebaseToken==null) return null;
-            else return new AuthUser(firebaseToken.getUid(), firebaseToken.getEmail(), firebaseToken.getName());
-
+            
+			
+            
+            try{Tasks.await(task);}
+            catch(ExecutionException e){logger.log(Level.SEVERE, e.toString(), e);}
+            catch (InterruptedException e) {logger.log(Level.SEVERE, e.toString(), e);}
+           
             
         }
+        
+      
 
         
         
         
-        return null;
+        return user;
 }
 	
 	

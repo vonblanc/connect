@@ -12,11 +12,14 @@
 
 	 var fireToken;
      var apiRoot="http://localhost:8080/_ah/api";
+     var request={
+  		   "Message":"Hello it's me",
+  		   
+     }
 
-
-	 function init()
+	 function init(token)
 	 {
-	 	postinit(apiRoot)
+	 	postinit(apiRoot,token);
 	 	
 	 }
  
@@ -26,7 +29,7 @@
     	           
     	      
     	      
-    	      var postinit=  function(apiRoot) {
+    	      var postinit=  function(apiRoot,token) {
     	    	  
     	    	  console.log("got into the initialize function......");
     	    	  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
@@ -35,8 +38,8 @@
     	    	  var callback = function() {
     	    	    if (--apisToLoad == 0) {
     	    	    	
-    	    	    	console.log("got into the callback calling gapi request function.............")
-    	    	        call();
+    	    	    	console.log("STARTING AJAX BABY!!!!!.............")
+    	    	        call(token);
     	    	    }
     	    	  }
 
@@ -53,16 +56,66 @@
 
     	  // Loads the OAuth and helloworld APIs asynchronously, and triggers login
     	  // when they have completed.
+    	  
+    	  
 
-    	  var call = function() {
+    	  var call = function(token) {
+            	   
+            	   
+
+
+                   $.ajax({
+
+                       url: 'http://localhost:8080/_ah/api/connectapi/v1/test',
+
+                       type: 'GET',
+
+                       dataType: 'json',
+
+                       data: request,
+
+                       success: function (data, textStatus, xhr) {
+
+                           console.log(data);
+
+                       },
+                       
+                       headers:{
+                    	   'Authorization': 'Bearer '+token
+                    	   
+                    	   
+                       },
+
+                       error: function (xhr, textStatus, errorThrown) {
+                           
+                    	   
+                           console.log('Error in Operation');
+                           console.log(textStatus + "Error thrown:"+ errorThrown);
+                           
+                       }
+
+                   });
+            	   
+            	   
+            	   
+            	   /*
     	        console.log("currently about exectuing the gapi request func");
-
-    	      gapi.client.request({
+    	        
+    	        gapi.client.connectapi.decMessage(request).execute(function(response){
+    	        	
+    	        	
+    	        	console.log(response);
+    	        	
+    	        });
+                    */
+    	   
+    	    /*    
+    	        gapi.client.request({
 
     	    	 
 
     	    	  
-    	       'path':'connectapi/v1/test',
+    	       'path':'/connectapi/v1/test',
     	        'method':'GET',
     	        'params': {'Message':'hello its me'},
     	        'headers': {
@@ -72,7 +125,7 @@
     	        },
     	    }).then(function(reponse){
 
-    	           //console.log(JSON.stringify(reponse));
+    	          console.log(JSON.stringify(reponse));
 
 
 
@@ -80,6 +133,7 @@
     	        
     	        console.log(error.headers);
     	        });
+    	    */
 
     	  }
 
@@ -117,11 +171,10 @@ var value=$("#get_token").val();
 fireToken=value;
 console.log(fireToken);
 
-init();
+init(fireToken);
 
 
-// Loads the JavaScript client library and invokes `start` afterwards.
-//gapi.load('client', start);
+
   
 
  
