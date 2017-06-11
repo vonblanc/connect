@@ -31,7 +31,7 @@ public class FireAuth implements Authenticator{
 	public static final Logger logger=Logger.getLogger(FireAuth.class.getName());
 	private FirebaseToken firebaseToken;
 	
-	User user;
+	private User user;
 
 	
 	static {
@@ -73,45 +73,16 @@ public class FireAuth implements Authenticator{
         
         //verify
         if(authorizationHeader != null) {
-            Task<FirebaseToken> task = FirebaseAuth.getInstance().verifyIdToken(authorizationHeader.replace("Bearer ", "")).addOnFailureListener(new OnFailureListener(){
-
-						@Override
-						public void onFailure(Exception e) {
-				            
-							logger.log(Level.SEVERE, "Verification of firebase token faailed but aat least it go to this stage");
-							
-							logger.log(Level.SEVERE, e.toString(), e);
-							
-						}
-            			
-            			
-            			
-            			
-            			
-            			
-            			
-            		}).addOnCompleteListener(new OnCompleteListener<FirebaseToken>(){
-
-						@Override
-						public void onComplete(Task<FirebaseToken> arg0) {
-							// TODO Auto-generated method stub
-							firebaseToken=arg0.getResult();
-							logger.log(Level.SEVERE, "Verification of firebase token Successful");
-							logger.log(Level.SEVERE, "This is the users email from the firebase token "+firebaseToken.getEmail());
-
-							user=new AuthUser(firebaseToken.getUid(), firebaseToken.getEmail(), firebaseToken.getName());
-			                logger.log(Level.SEVERE, "User created is "+ user.toString());
-
-							
-						}});
-            
-			
-            
+            Task<FirebaseToken> task = FirebaseAuth.getInstance().verifyIdToken(authorizationHeader.replace("Bearer ", ""));
+            		
+          
             try{Tasks.await(task);}
             catch(ExecutionException e){logger.log(Level.SEVERE, e.toString(), e);}
             catch (InterruptedException e) {logger.log(Level.SEVERE, e.toString(), e);}
            
             
+            firebaseToken=task.getResult();
+            user=new AuthUser(firebaseToken.getUid(), firebaseToken.getEmail(), firebaseToken.getName()); 
         }
         
       
