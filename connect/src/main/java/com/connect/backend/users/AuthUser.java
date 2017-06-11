@@ -2,7 +2,9 @@ package com.connect.backend.users;
 
 import com.google.api.server.spi.auth.common.User;
 
+@SuppressWarnings("serial")
 public class AuthUser extends User{
+	
 	
 	private String name;
 	
